@@ -15,7 +15,8 @@ export default function AuthForm() {
       theme="dark"
       showLinks={false}
       providers={[]}
-      redirectTo="http://localhost:3000/auth/callback"
+      redirectTo="https://keep-three.vercel.app/auth/callback"
+      //redirectTo="http://localhost:3000/auth/callback"
     />
   )
 }
