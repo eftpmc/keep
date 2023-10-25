@@ -4,15 +4,16 @@ import { Database } from '@/types/supabase'
 import Header from '@/components/header'
 
 export default async function Home() {
-  const supabase = createServerComponentClient<Database>({ cookies })
+    cookies().getAll();
+    const supabase = createServerComponentClient<Database>({ cookies })
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    const {
+        data: { session },
+    } = await supabase.auth.getSession()
 
-  return (
-    <div>
-      <Header session={session} />
-    </div>
-  )
+    return (
+        <div>
+            <Header session={session} />
+        </div>
+    )
 }
