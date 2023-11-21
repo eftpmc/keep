@@ -18,10 +18,10 @@ export default function Header() {
         </a>
       </div>
       <h1 className="text-4xl lg:text-5xl font-bold text-center">
-        Ward
+        Keep
       </h1>
       <p className="text-xl lg:text-2xl text-center max-w-2xl mx-auto mt-4">
-        Your personal digital closet for creating, organizing, and sharing outfits.
+        Keep yourself together.
       </p>
       <div className="w-full p-[1px] bg-gradient-to-r from-transparent via-foreground/10 to-transparent my-8" />
     </div>
