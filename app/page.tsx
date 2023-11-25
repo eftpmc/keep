@@ -3,7 +3,7 @@ import AddButton from '../components/AddButton'
 import AuthButton from '../components/AuthButton'
 import { createClient } from '@/utils/supabase/server'
 import WelcomeScreen from '@/components/WelcomeScreen'
-import Home from '@/components/Home'
+import Wardrobe from '@/components/Wardrobe'
 import Header from '@/components/Header'
 import { cookies } from 'next/headers'
 
@@ -40,9 +40,9 @@ export default async function Index() {
               ariaLabel="Navigate to Home"
             />
             <UniversalButton
-              text="Calender"
+              text="Wardrobe"
               href="/"
-              ariaLabel="Navigate to Calender"
+              ariaLabel="Navigate to Wardrobe"
             />
             <AddButton />
           </div>
@@ -56,7 +56,7 @@ export default async function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
         {await isAuth ? null : <Header />}
         <main className="flex-1 flex flex-col gap-6">
-          {await isAuth ? <Home /> : <WelcomeScreen />}
+          {await isAuth ? <Wardrobe /> : <WelcomeScreen />}
         </main>
       </div>
 
