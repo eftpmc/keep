@@ -1,6 +1,5 @@
 import React from 'react';
 import UniversalButton from '../components/UniversalButton';
-import AddButton from '../components/AddButton';
 import AuthButton from '../components/AuthButton';
 import { createClient } from '@/utils/supabase/server';
 import WelcomeScreen from '@/components/WelcomeScreen';
@@ -26,7 +25,6 @@ export default async function Index() {
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
             <UniversalButton text="Calender" href="/" ariaLabel="Navigate to Calender" />
-            <AddButton />
           </div>
           <div>
             <AuthButton />

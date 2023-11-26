@@ -1,11 +1,13 @@
-export default function AddButton() {
-    return (
-      <button
-        className="py-2 px-3 flex rounded-md no-underline bg-green-500 hover:bg-green-600 text-white"
-        aria-label="Add Item"
-      >
-        Add Item
-      </button>
-    );
-  }
-  
+type AddButtonProps = {
+  onAdd: () => void;
+};
+
+export const AddButton: React.FC<AddButtonProps> = ({ onAdd }) => {
+  return (
+    <button onClick={onAdd}>
+      Add Item
+    </button>
+  );
+};
+
+export default AddButton;
