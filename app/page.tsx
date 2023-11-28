@@ -1,22 +1,15 @@
-import React from 'react';
+"use client"
+
+import React, { useEffect, useState } from 'react';
+import { useAuth } from '@/utils/AuthContext';
 import UniversalButton from '../components/UniversalButton';
 import AuthButton from '../components/AuthButton';
-import { createClient } from '@/utils/supabase/server';
 import WelcomeScreen from '@/components/WelcomeScreen';
 import Home from '@/components/Home';
 import Header from '@/components/Header';
-import { cookies } from 'next/headers';
 
-async function checkAuth() {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const { data, error } = await supabase.auth.getSession();
-
-  return !!(data.session && !error);
-}
-
-export default async function Index() {
-  const isAuth = await checkAuth();
+export default function Index() {
+  const { isAuth } = useAuth();
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
