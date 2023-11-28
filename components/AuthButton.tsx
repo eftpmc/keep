@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/utils/AuthContext';
 
+interface User {
+  email: string;
+}
+
 export default function AuthButton() {
   const { isAuth, setIsAuth } = useAuth();
-  const [user, setUser] = useState(null); // Reintroduce the user state
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUser = async () => {
