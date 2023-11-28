@@ -10,6 +10,10 @@ import Header from '@/components/Header';
 
 export default function Index() {
   const { isAuth } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => setIsModalOpen(true);
+  const hideModal = () => setIsModalOpen(false);
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
@@ -17,7 +21,7 @@ export default function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            <UniversalButton text="Calender" href="/" ariaLabel="Navigate to Calender" />
+            {isAuth && <button onClick={showModal} className="p-2 bg-blue-500 text-white rounded">Add Card</button>}
           </div>
           <div>
             <AuthButton />
@@ -28,7 +32,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home /> : <WelcomeScreen />}
+          {isAuth ? <Home isModalOpen={isModalOpen} hideModal={hideModal} /> : <WelcomeScreen />}
         </main>
       </div>
 
