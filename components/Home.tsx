@@ -36,13 +36,13 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
 
 
   return (
-    <div className="flex-1 flex flex-col relative justify-center items-center">
+    <div>
       <div className="absolute top-0 left-0 m-4">
         {currentDate}
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-transparent z-50 flex justify-center items-center">
-          <div className="absolute z-60">
+        <div className="absolute z-60">
             <CardForm
               onSubmit={addCard}
               onTitleChange={(e) => setNewTitle(e.target.value)}
@@ -54,7 +54,8 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
           </div>
         </div>
       )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-items-center items-center">
+
+      <div className="flex flex-wrap gap-4">
         {cards.map((card, index) => (
           <Card key={index} card={card} onRemove={() => removeCard(index)} />
         ))}
