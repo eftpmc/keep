@@ -9,10 +9,10 @@ type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ card, onRemove }) => (
-  <div className="flex flex-col items-center w-36">
+  <div className="flex flex-col items-center"> {/* Removed w-36 */}
     {card.imageUrl && (
-      <div className="w-full aspect-w-1 aspect-h-1 bg-gray-200 flex justify-center items-center">
-        <img src={card.imageUrl} alt={card.title} className="max-w-full max-h-full" />
+      <div className="w-full bg-gray-200 flex justify-center items-center">
+        <img src={card.imageUrl} alt={card.title} className="w-full" /> {/* Adjusted image classes */}
       </div>
     )}
     <div className="mt-2 text-center">{card.title}</div>
@@ -23,3 +23,4 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => (
 );
 
 export default Card;
+

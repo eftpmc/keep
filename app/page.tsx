@@ -11,6 +11,7 @@ import Header from '@/components/Header';
 export default function Index() {
   const { isAuth } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const currentDate = new Date().toLocaleDateString();
 
   const showModal = () => setIsModalOpen(true);
   const hideModal = () => setIsModalOpen(false);
@@ -22,6 +23,9 @@ export default function Index() {
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
             {isAuth && <button onClick={showModal} className="p-2 bg-blue-500 text-white rounded">Add Card</button>}
+          </div>
+          <div className="flex-1 flex justify-center"> {/* Center Section for Date */}
+            {currentDate}
           </div>
           <div>
             <AuthButton />
