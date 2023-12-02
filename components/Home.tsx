@@ -67,9 +67,12 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
+      const timestamp = Date.now();
+      const sanitizedFileName = file.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + `_${timestamp}`;
+
       const { data, error } = await supabase.storage
       .from('card-images')
-      .upload(`images/${file.name}`, file, {
+      .upload(`images/${sanitizedFileName}`, file, {
         cacheControl: '3600',
         upsert: false
       });
