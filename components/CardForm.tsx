@@ -39,7 +39,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
   };
 
   return (
-    <div className="flex flex-col bg-background items-center gap-4 mb-4 p-4 border rounded-md mx-auto w-full sm:max-w-sm md:max-w-md lg:max-w-lg animate-in">
+    <div  className="flex flex-col bg-background items-center gap-4 mb-4 p-4 border rounded-md mx-auto w-11/12 sm:w-full sm:max-w-sm md:max-w-md lg:max-w-lg animate-in">
       <input
         className="form-input px-4 py-2 bg-gray-700 text-white rounded-md"
         type="text"
@@ -49,7 +49,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
       />
       {error && <div className="text-red-500">{error}</div>}
       <input
-        className="form-input px-4 py-2 bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
+        className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
         key={inputKey}
         type="file"
         onChange={handleFileChange}
