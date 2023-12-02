@@ -23,7 +23,6 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
 
   const fetchImage = async (imagePath: string) => {
     try {
-      console.log(imagePath)
       const { data, error } = await supabase.storage
         .from("card-images")
         .download(imagePath);
@@ -65,6 +64,14 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     fetchCards();
   }, []);
 
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isModalOpen]);
+
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -81,27 +88,25 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     const newCard = { title: newTitle, imageUrl: newImage };
 
     try {
-      if (newFile != undefined)
-      {
+      if (newFile != undefined) {
         const timestamp = Date.now();
         const sanitizedFileName = newFile.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
 
         const { data, error } = await supabase.storage
-        .from('card-images')
-        .upload(`images/${sanitizedFileName}`, newFile, {
-          cacheControl: '3600',
-          upsert: false
-        });
+          .from('card-images')
+          .upload(`images/${sanitizedFileName}`, newFile, {
+            cacheControl: '3600',
+            upsert: false
+          });
 
-        if (data != null)
-        {
+        if (data != null) {
           newCard.imageUrl = data.path
         }
 
-      if (error) {
-        console.error('Error uploading image:', error);
-        return;
-      }
+        if (error) {
+          console.error('Error uploading image:', error);
+          return;
+        }
       }
 
 
@@ -158,17 +163,15 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
   return (
     <div>
       {isModalOpen && (
-        <div className="fixed inset-0 bg-transparent z-50 flex justify-center items-center">
-          <div className="absolute z-60">
-            <CardForm
-              onSubmit={addCard}
-              onTitleChange={(e) => setNewTitle(e.target.value)}
-              onImageChange={handleImageChange}
-              onClose={hideModal}
-              newTitle={newTitle}
-              inputKey={inputKey}
-            />
-          </div>
+        <div className="fixed inset-0  z-50 flex justify-center items-start md:items-center overflow-y-auto">
+          <CardForm
+            onSubmit={addCard}
+            onTitleChange={(e) => setNewTitle(e.target.value)}
+            onImageChange={handleImageChange}
+            onClose={hideModal}
+            newTitle={newTitle}
+            inputKey={inputKey}
+          />
         </div>
       )}
 

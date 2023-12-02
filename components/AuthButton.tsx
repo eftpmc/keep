@@ -6,9 +6,35 @@ interface User {
   email: string;
 }
 
+function useWindowSize() {
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 0,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowSize({
+        width: window.innerWidth,
+      });
+    }
+    
+    window.addEventListener("resize", handleResize);
+    
+    handleResize(); // Call the function initially to set the state
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowSize;
+}
+
+
 export default function AuthButton() {
   const { isAuth, setIsAuth } = useAuth();
   const [user, setUser] = useState<User | null>(null);
+  const { width } = useWindowSize();
+
+  const isLargeScreen = width > 768;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -38,7 +64,7 @@ export default function AuthButton() {
 
   return isAuth && user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      {isLargeScreen && <>Hey, {user.email}!</>}
       <button onClick={signOut} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
         Logout
       </button>
