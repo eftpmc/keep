@@ -69,7 +69,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
       const file = event.target.files[0];
 
       const timestamp = Date.now();
-      const sanitizedFileName = file.name.replace(/[^a-z0-9]/gi, '_').toLowerCase() + `_${timestamp}`;
+      const sanitizedFileName = file.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
 
       const { data, error } = await supabase.storage
       .from('card-images')
