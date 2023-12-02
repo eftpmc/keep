@@ -18,6 +18,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
   const [cards, setCards] = useState<CardType[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newImage, setNewImage] = useState('');
+  const [newFile, setNewFile] = useState<File>();
   const [inputKey, setInputKey] = useState(Date.now());
 
   const fetchImage = async (imagePath: string) => {
@@ -29,15 +30,15 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
       if (error) {
         throw error;
       }
-      
+
       const imageUrl = URL.createObjectURL(data);
-  
+
       return imageUrl;
     } catch (error) {
       console.error('Error fetching image:', error);
       return null;
     }
-  };  
+  };
 
   useEffect(() => {
     const fetchCards = async () => {
@@ -47,14 +48,14 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
           throw new Error('Network response was not ok');
         }
         const fetchedCards = await response.json();
-        
+
         const cardsWithNewImages = await Promise.all(
           fetchedCards.map(async (card: { imageUrl: string; }) => {
             const newImageUrl = await fetchImage(card.imageUrl);
             return { ...card, imageUrl: newImageUrl };
           })
         );
-  
+
         setCards(cardsWithNewImages);
       } catch (error) {
         console.error('Error fetching cards:', error);
@@ -68,105 +69,116 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
 
-      const timestamp = Date.now();
-      const sanitizedFileName = file.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
+      setNewFile(file);
 
-      const { data, error } = await supabase.storage
-      .from('card-images')
-      .upload(`images/${sanitizedFileName}`, file, {
-        cacheControl: '3600',
-        upsert: false
-      });
-
-    if (error) {
-      console.error('Error uploading image:', error);
-      return;
-    }
-
-      //const imageUrl = URL.createObjectURL(event.target.files[0])
-      const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/card-images/${data.path}`;
-      setNewImage(data.path);
+      const imageUrl = URL.createObjectURL(event.target.files[0])
+      //const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/card-images/${data.path}`;
+      setNewImage(imageUrl);
     }
   };
 
   const addCard = async () => {
-      const newCard = { title: newTitle, imageUrl: newImage };
+    const newCard = { title: newTitle, imageUrl: newImage };
 
-      try {
-        const response = await fetch('/api/addCard', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(newCard),
+    try {
+      if (newFile != undefined)
+      {
+        const timestamp = Date.now();
+        const sanitizedFileName = newFile.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
+
+        const { data, error } = await supabase.storage
+        .from('card-images')
+        .upload(`images/${sanitizedFileName}`, newFile, {
+          cacheControl: '3600',
+          upsert: false
         });
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        if (data != null)
+        {
+          newCard.imageUrl = data.path
         }
 
-        const responseData = await response.json();
-        const addedCard =  responseData[0];
-
-        const newImageUrl = await fetchImage(addedCard.imageUrl);
-        if (newImageUrl) {
-          addedCard.imageUrl = newImageUrl;
-        }
-
-        setCards([...cards, addedCard]);
-        setNewTitle('');
-        setNewImage('');
-        setInputKey(Date.now());
-      } catch (error) {
-        console.error('Error adding card:', error);
+      if (error) {
+        console.error('Error uploading image:', error);
+        return;
       }
-    };
-
-    const removeCard = async (index: number) => {
-      try {
-        const response = await fetch('/api/removeCard', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(cards[index].id),
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        setCards(cards.filter((_, cardIndex) => cardIndex !== index));
-      } catch (error) {
-        console.error('Error removing card:', error);
       }
-    };
 
 
-    return (
-      <div>
-        {isModalOpen && (
-          <div className="fixed inset-0 bg-transparent z-50 flex justify-center items-center">
-            <div className="absolute z-60">
-              <CardForm
-                onSubmit={addCard}
-                onTitleChange={(e) => setNewTitle(e.target.value)}
-                onImageChange={handleImageChange}
-                onClose={hideModal}
-                newTitle={newTitle}
-                inputKey={inputKey}
-              />
-            </div>
-          </div>
-        )}
+      const response = await fetch('/api/addCard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newCard),
+      });
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {cards.map((card, index) => (
-            <Card key={index} card={card} onRemove={() => removeCard(index)} />
-          ))}
-        </div>
-      </div>
-    );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const responseData = await response.json();
+      const addedCard = responseData[0];
+
+      const newImageUrl = await fetchImage(addedCard.imageUrl);
+      if (newImageUrl) {
+        addedCard.imageUrl = newImageUrl;
+      }
+
+      setCards([...cards, addedCard]);
+      setNewTitle('');
+      setNewImage('');
+      setInputKey(Date.now());
+    } catch (error) {
+      console.error('Error adding card:', error);
+    }
   };
 
-  export default Home;
+  const removeCard = async (index: number) => {
+    try {
+      const response = await fetch('/api/removeCard', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(cards[index].id),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      setCards(cards.filter((_, cardIndex) => cardIndex !== index));
+    } catch (error) {
+      console.error('Error removing card:', error);
+    }
+  };
+
+
+  return (
+    <div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-transparent z-50 flex justify-center items-center">
+          <div className="absolute z-60">
+            <CardForm
+              onSubmit={addCard}
+              onTitleChange={(e) => setNewTitle(e.target.value)}
+              onImageChange={handleImageChange}
+              onClose={hideModal}
+              newTitle={newTitle}
+              inputKey={inputKey}
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        {cards.map((card, index) => (
+          <Card key={index} card={card} onRemove={() => removeCard(index)} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Home;
