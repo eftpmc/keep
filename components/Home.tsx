@@ -22,6 +22,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
 
   const fetchImage = async (imagePath: string) => {
     try {
+      console.log(imagePath)
       const { data, error } = await supabase.storage
         .from("card-images")
         .download(imagePath);
