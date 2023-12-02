@@ -11,6 +11,7 @@ type CardType = {
   id?: number;
   title: string;
   imageUrl: string;
+  link?: string;
   createdDate?: string;
 };
 
@@ -19,6 +20,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
   const [newTitle, setNewTitle] = useState('');
   const [newImage, setNewImage] = useState('');
   const [newFile, setNewFile] = useState<File>();
+  const [newLink, setNewLink] = useState('');
   const [inputKey, setInputKey] = useState(Date.now());
 
   const fetchImage = async (imagePath: string) => {
@@ -85,7 +87,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
   };
 
   const addCard = async () => {
-    const newCard = { title: newTitle, imageUrl: newImage };
+    const newCard = { title: newTitle, imageUrl: newImage, link: newLink };
 
     try {
       if (newFile != undefined) {
@@ -133,6 +135,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
       setCards([...cards, addedCard]);
       setNewTitle('');
       setNewImage('');
+      setNewLink('');
       setInputKey(Date.now());
     } catch (error) {
       console.error('Error adding card:', error);
@@ -168,8 +171,10 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
             onSubmit={addCard}
             onTitleChange={(e) => setNewTitle(e.target.value)}
             onImageChange={handleImageChange}
+            onLinkChange={(e) => setNewLink(e.target.value)}
             onClose={hideModal}
             newTitle={newTitle}
+            newLink={newLink}
             inputKey={inputKey}
           />
         </div>

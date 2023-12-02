@@ -4,6 +4,7 @@ type CardProps = {
   card: {
     title: string;
     imageUrl: string;
+    link?: string;
   };
   onRemove: () => void;
 };
@@ -13,11 +14,21 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
     return null;
   }
 
+  const imageContent = card.imageUrl ? (
+    <img src={card.imageUrl} alt={card.title} className="w-full" />
+  ) : null;
+
   return (
     <div className="flex flex-col items-center">
-      {card.imageUrl && (
+      {imageContent && (
         <div className="w-full bg-gray-200 flex justify-center items-center">
-          <img src={card.imageUrl} alt={card.title} className="w-full" />
+          {card.link ? (
+            <a href={card.link} target="_blank" rel="noopener noreferrer">
+              {imageContent}
+            </a>
+          ) : (
+            imageContent
+          )}
         </div>
       )}
       <div className="mt-2 text-center">{card.title}</div>
@@ -29,4 +40,5 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
 };
 
 export default Card;
+
 
