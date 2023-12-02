@@ -39,7 +39,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 mb-4 p-4 border border-gray-300 rounded-md bg-gray-800 w-full sm:w-auto">
+    <div className="flex flex-col items-center gap-4 mb-4 p-4 border border-gray-300 rounded-md bg-background w-full sm:w-auto">
       <input
         className="form-input px-4 py-2 bg-gray-700 text-white rounded-md"
         type="text"
@@ -54,7 +54,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
         type="file"
         onChange={handleFileChange}
       />
-      <button onClick={handleFormSubmit} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+      <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Add Item
       </button>
       <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">

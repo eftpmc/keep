@@ -22,9 +22,9 @@ export default function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            {isAuth && <button onClick={showModal} className="p-2 bg-blue-500 text-white rounded">Add Card</button>}
+            {isAuth && <button onClick={showModal} className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded">Add Card</button>}
           </div>
-          <div className="flex-1 flex justify-center"> {/* Center Section for Date */}
+          <div className="flex-1 flex justify-center">
             {currentDate}
           </div>
           <div>
