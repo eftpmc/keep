@@ -45,20 +45,20 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
     <div className="bg-background p-4 rounded-md mx-auto min-w-[300px]">
       <div className="flex flex-col md:flex-row md:items-center gap-4">
         <input
-          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md"
+          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md"
           type="text"
           value={newTitle}
           onChange={onTitleChange}
           placeholder="Enter title"
         />
         <input
-          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
+          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
           key={inputKey}
           type="file"
           onChange={handleFileChange}
         />
         <input
-          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md"
+          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md"
           type="url"
           value={newLink}
           onChange={onLinkChange}
