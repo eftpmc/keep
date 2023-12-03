@@ -66,14 +66,6 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     fetchCards();
   }, []);
 
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [isModalOpen]);
-
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -166,7 +158,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
   return (
     <div>
       {isModalOpen && (
-        <div className="fixed inset-0  z-50 flex justify-center items-start md:items-center overflow-y-auto">
+        <div className="flex w-full z-50 flex justify-center items-center">
           <CardForm
             onSubmit={addCard}
             onTitleChange={(e) => setNewTitle(e.target.value)}

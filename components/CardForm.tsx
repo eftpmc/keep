@@ -42,34 +42,38 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
   };
 
   return (
-    <div  className="flex flex-col bg-background items-center gap-4 mb-4 p-4 border rounded-md mx-auto w-11/12 sm:w-full sm:max-w-sm md:max-w-md lg:max-w-lg animate-in">
-      <input
-        className="form-input px-4 py-2 bg-gray-700 text-white rounded-md"
-        type="text"
-        value={newTitle}
-        onChange={onTitleChange}
-        placeholder="Enter title"
-      />
+    <div className="bg-background p-4 rounded-md mx-auto min-w-[300px]">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
+        <input
+          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md"
+          type="text"
+          value={newTitle}
+          onChange={onTitleChange}
+          placeholder="Enter title"
+        />
+        <input
+          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
+          key={inputKey}
+          type="file"
+          onChange={handleFileChange}
+        />
+        <input
+          className="form-input px-4 py-2 md:w-1/3 bg-gray-700 text-white rounded-md"
+          type="url"
+          value={newLink}
+          onChange={onLinkChange}
+          placeholder="Enter link (optional)"
+        />
+      </div>
       {error && <div className="text-red-500">{error}</div>}
-      <input
-        className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
-        key={inputKey}
-        type="file"
-        onChange={handleFileChange}
-      />
-      <input
-        className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md"
-        type="url"
-        value={newLink}
-        onChange={onLinkChange}
-        placeholder="Enter link (optional)"
-      />
-      <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-        Add Item
-      </button>
-      <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
-        Close
-      </button>
+      <div className="flex justify-center gap-2 mt-4">
+        <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Add Item
+        </button>
+        <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Close
+        </button>
+      </div>
     </div>
   );
 };
