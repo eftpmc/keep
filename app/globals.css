@@ -40,3 +40,31 @@
     transform: translateY(0);
   }
 }
+
+.masonry-grid {
+  column-count: 1;
+  column-gap: 1rem;
+}
+
+@media (min-width: 640px) { /* Tailwind's 'sm' breakpoint */
+  .masonry-grid {
+    column-count: 2;
+  }
+}
+
+@media (min-width: 768px) { /* Tailwind's 'md' breakpoint */
+  .masonry-grid {
+    column-count: 3;
+  }
+}
+
+@media (min-width: 1024px) { /* Tailwind's 'lg' breakpoint */
+  .masonry-grid {
+    column-count: 4;
+  }
+}
+
+.masonry-card {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}

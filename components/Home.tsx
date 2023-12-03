@@ -172,11 +172,18 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      <div className="masonry-grid">
+        {cards.map((card, index) => (
+          <div key={index} className="masonry-card">
+            <Card card={card} onRemove={() => removeCard(index)} />
+          </div>
+        ))}
+      </div>
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {cards.map((card, index) => (
           <Card key={index} card={card} onRemove={() => removeCard(index)} />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
