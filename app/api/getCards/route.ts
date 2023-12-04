@@ -22,8 +22,6 @@ export async function GET(req: Request) {
         date = formatDateForSupabase(date)
     }
 
-    console.log(date)
-
     try {
         const supabase = createClient(cookieStore);
 
