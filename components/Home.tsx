@@ -15,7 +15,21 @@ type CardType = {
   createdDate?: string;
 };
 
-const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isModalOpen, hideModal }) => {
+const getCurrentDate = () => {
+  const today = new Date();
+  const year = today.getUTCFullYear();
+  const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // getUTCMonth is 0-based
+  const day = String(today.getUTCDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+type HomeProps = {
+  isFormOpen: boolean;
+  hideForm: () => void;
+  selectedDate: Date;
+};
+
+const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [newTitle, setNewTitle] = useState('');
   const [newImage, setNewImage] = useState('');
@@ -43,8 +57,9 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
 
   useEffect(() => {
     const fetchCards = async () => {
+
       try {
-        const response = await fetch('/api/getCards');
+        const response = await fetch(`/api/getCards?date=${selectedDate}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -64,7 +79,7 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
     };
 
     fetchCards();
-  }, []);
+  }, [selectedDate]);
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -157,14 +172,14 @@ const Home: React.FC<{ isModalOpen: boolean; hideModal: () => void }> = ({ isMod
 
   return (
     <div>
-      {isModalOpen && (
+      {isFormOpen && (
         <div className="flex w-full z-50 flex justify-center items-center">
           <CardForm
             onSubmit={addCard}
             onTitleChange={(e) => setNewTitle(e.target.value)}
             onImageChange={handleImageChange}
             onLinkChange={(e) => setNewLink(e.target.value)}
-            onClose={hideModal}
+            onClose={hideForm}
             newTitle={newTitle}
             newLink={newLink}
             inputKey={inputKey}

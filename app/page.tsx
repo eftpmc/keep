@@ -7,14 +7,20 @@ import AuthButton from '../components/AuthButton';
 import WelcomeScreen from '@/components/WelcomeScreen';
 import Home from '@/components/Home';
 import Header from '@/components/Header';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export default function Index() {
   const { isAuth } = useAuth();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const currentDate = new Date().toLocaleDateString();
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const showModal = () => setIsModalOpen(true);
-  const hideModal = () => setIsModalOpen(false);
+  const showForm = () => setIsFormOpen(true);
+  const hideForm = () => setIsFormOpen(false);
+
+  const handleDateChange = (date : any) => {
+    setSelectedDate(date);
+  };
 
   return (
     <div className="flex-1 w-full flex flex-col gap-5 items-center">
@@ -22,10 +28,15 @@ export default function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            {isAuth && <button onClick={showModal} className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded">Add Card</button>}
+            {isAuth && <button onClick={showForm} className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded">Add Card</button>}
           </div>
           <div className="flex-1 flex justify-center">
-            {currentDate}
+            <DatePicker
+              className='bg-background text-center'
+              selected={selectedDate}
+              onChange={handleDateChange}
+              dateFormat="yyyy/MM/dd" // Format the date display
+            />
           </div>
           <div>
             <AuthButton />
@@ -36,7 +47,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home isModalOpen={isModalOpen} hideModal={hideModal} /> : <WelcomeScreen />}
+          {isAuth ? <Home isFormOpen={isFormOpen} hideForm={hideForm} selectedDate={selectedDate}/> : <WelcomeScreen />}
         </main>
       </div>
 

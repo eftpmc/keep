@@ -1,16 +1,42 @@
 import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
 
-export async function GET() {
+const formatDateForSupabase = (inputDate: Date | string): string => {
+    let date = new Date(inputDate);
+
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+};
+
+export async function GET(req: Request) {
     const cookieStore = cookies();
+    const { searchParams } = new URL(req.url)
+    let date = searchParams.get('date')
+
+    if (!date) {
+        date = formatDateForSupabase(new Date())
+    } else {
+        date = formatDateForSupabase(date)
+    }
+
+    console.log(date)
 
     try {
         const supabase = createClient(cookieStore);
+
+        const startDate = new Date(`${date}T00:00:00Z`); // Start of the day in UTC
+        const endDate = new Date(startDate);
+        endDate.setUTCDate(endDate.getUTCDate() + 1);
+
         let { data: cards, error } = await supabase
             .from('cards')
             .select('*')
+            .gte('createdDate', startDate.toISOString())
+            .lt('createdDate', endDate.toISOString());
 
-        if (error) throw error;
         return new Response(JSON.stringify(cards), { status: 200, headers: { "Content-Type": "application/json" } })
     } catch (error) {
         if (error instanceof Error) {
