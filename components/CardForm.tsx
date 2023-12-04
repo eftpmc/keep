@@ -67,10 +67,10 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
       </div>
       {error && <div className="text-red-500">{error}</div>}
       <div className="flex justify-center gap-2 mt-4">
-        <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Add Item
+        <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+          Add Card
         </button>
-        <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
           Close
         </button>
       </div>

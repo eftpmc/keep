@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
         </div>
       )}
       <div className="mt-2 text-center">{card.title}</div>
-      <button onClick={onRemove} className="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+      <button onClick={onRemove} className="mt-2 bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">
         Remove
       </button>
     </div>
