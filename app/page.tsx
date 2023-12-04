@@ -9,7 +9,6 @@ import Home from '@/components/Home';
 import Header from '@/components/Header';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FaHome, FaPlus } from 'react-icons/fa';
 
 export default function Index() {
   const { isAuth } = useAuth();
@@ -19,7 +18,7 @@ export default function Index() {
   const showForm = () => setIsFormOpen(true);
   const hideForm = () => setIsFormOpen(false);
 
-  const handleDateChange = (date: any) => {
+  const handleDateChange = (date : any) => {
     setSelectedDate(date);
   };
 
@@ -33,11 +32,11 @@ export default function Index() {
           </div>
           <div className="flex-1 flex justify-center">
             <DatePicker
-              className="form-input text-center sm:text-lg sm:py-3 no-auto-focus"
+              className='bg-background text-center max-w-[100px]'
               selected={selectedDate}
               onChange={handleDateChange}
-              dateFormat="MM/dd/yyyy"
-              onFocus={(e) => e.target.blur()} // Add this line to prevent focus
+              dateFormat="MM/dd/yyyy" // Format the date display
+              customInput={<input readOnly />}
             />
           </div>
           <div>
@@ -49,7 +48,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home isFormOpen={isFormOpen} hideForm={hideForm} selectedDate={selectedDate} /> : <WelcomeScreen />}
+          {isAuth ? <Home isFormOpen={isFormOpen} hideForm={hideForm} selectedDate={selectedDate}/> : <WelcomeScreen />}
         </main>
       </div>
 

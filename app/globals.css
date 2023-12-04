@@ -75,16 +75,3 @@
   break-inside: avoid;
   margin-bottom: 1rem;
 }
-
-.no-auto-focus::-webkit-calendar-picker-indicator {
-  display: none;
-}
-
-.no-auto-focus::before {
-  content: '';
-  display: inline-block;
-  height: 1em;
-  width: 1em;
-  background-size: contain;
-  cursor: pointer;
-}
