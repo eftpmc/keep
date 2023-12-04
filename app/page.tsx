@@ -20,8 +20,6 @@ export default function Index() {
 
   const handleDateChange = (date : any) => {
     setSelectedDate(date);
-    const datePicker = document.getElementById("date-picker")
-    datePicker?.blur()
   };
 
   return (
@@ -34,11 +32,11 @@ export default function Index() {
           </div>
           <div className="flex-1 flex justify-center">
             <DatePicker
-              id="date-picker"
               className='bg-background text-center max-w-[100px]'
               selected={selectedDate}
               onChange={handleDateChange}
               dateFormat="MM/dd/yyyy" // Format the date display
+              onFocus={(e) => e.currentTarget.blur()}
             />
           </div>
           <div>
