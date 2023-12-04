@@ -1,17 +1,24 @@
 import { cookies } from 'next/headers';
 import { createClient } from '@/utils/supabase/server';
+import { start } from 'repl';
 
 export async function GET(req: Request) {
     const cookieStore = cookies();
     const { searchParams } = new URL(req.url)
     let date = searchParams.get('date')
+    let timezoneOffset = parseInt(searchParams.get('timezoneOffset') || '0', 10);
 
     try {
         const supabase = createClient(cookieStore);
 
-        const startDate = new Date(`${date}T00:00:00Z`); // Start of the day in UTC
+        const startDate = new Date(`${date}T00:00:00Z`);
+        startDate.setUTCMinutes(startDate.getUTCMinutes() + timezoneOffset);
+
         const endDate = new Date(startDate);
         endDate.setUTCDate(endDate.getUTCDate() + 1);
+
+        console.log(startDate)
+        console.log(endDate)
 
         let { data: cards, error } = await supabase
             .from('cards')

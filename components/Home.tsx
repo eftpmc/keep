@@ -60,10 +60,11 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   useEffect(() => {
     const fetchCards = async () => {
 
-      const formattedDate = formatDateForSupabase(selectedDate);
+      const timezoneOffset = new Date().getTimezoneOffset();
+      const formattedDate = selectedDate.toISOString().split('T')[0];
 
       try {
-        const response = await fetch(`/api/getCards?date=${formattedDate}`);
+        const response = await fetch(`/api/getCards?date=${formattedDate}&timezoneOffset=${timezoneOffset}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
