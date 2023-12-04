@@ -15,11 +15,13 @@ type CardType = {
   createdDate?: string;
 };
 
-const getCurrentDate = () => {
-  const today = new Date();
-  const year = today.getUTCFullYear();
-  const month = String(today.getUTCMonth() + 1).padStart(2, '0'); // getUTCMonth is 0-based
-  const day = String(today.getUTCDate()).padStart(2, '0');
+const formatDateForSupabase = (inputDate: Date | string): string => {
+  let date = new Date(inputDate);
+
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+
   return `${year}-${month}-${day}`;
 };
 
@@ -58,8 +60,10 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   useEffect(() => {
     const fetchCards = async () => {
 
+      const formattedDate = formatDateForSupabase(selectedDate);
+
       try {
-        const response = await fetch(`/api/getCards?date=${selectedDate}`);
+        const response = await fetch(`/api/getCards?date=${formattedDate}`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
