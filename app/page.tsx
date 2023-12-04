@@ -35,8 +35,7 @@ export default function Index() {
               className='bg-background text-center max-w-[100px]'
               selected={selectedDate}
               onChange={handleDateChange}
-              dateFormat="MM/dd/yyyy" // Format the date display
-              onFocus={(e) => e.currentTarget.blur()}
+              dateFormat="MM/dd/yyyy"
             />
           </div>
           <div>
