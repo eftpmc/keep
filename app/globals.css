@@ -85,7 +85,6 @@
   display: inline-block;
   height: 1em;
   width: 1em;
-  background: url('path-to-calendar-icon') no-repeat center center;
   background-size: contain;
   cursor: pointer;
 }
