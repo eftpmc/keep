@@ -6,8 +6,6 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     let date = searchParams.get('date')
 
-    console.log(date)
-
     try {
         const supabase = createClient(cookieStore);
 

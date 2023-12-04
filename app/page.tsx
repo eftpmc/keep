@@ -9,6 +9,7 @@ import Home from '@/components/Home';
 import Header from '@/components/Header';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FaHome, FaPlus } from 'react-icons/fa';
 
 export default function Index() {
   const { isAuth } = useAuth();
@@ -28,14 +29,14 @@ export default function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            {isAuth && <button onClick={showForm} className="p-2 bg-blue-500 hover:bg-blue-700 text-white rounded">Add Card</button>}
+            {isAuth && <button onClick={showForm} className="p-2 px-3 bg-blue-500 hover:bg-blue-700 text-white flex rounded-md no-underline border whitespace-nowrap">Add Card</button>}
           </div>
           <div className="flex-1 flex justify-center">
             <DatePicker
-              className='bg-background text-center'
+              className='bg-background text-center max-w-[100px]'
               selected={selectedDate}
               onChange={handleDateChange}
-              dateFormat="yyyy/MM/dd" // Format the date display
+              dateFormat="MM/dd/yyyy" // Format the date display
             />
           </div>
           <div>
