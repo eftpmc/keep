@@ -61,7 +61,8 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
     const fetchCards = async () => {
 
       const timezoneOffset = new Date().getTimezoneOffset();
-      const formattedDate = selectedDate.toISOString().split('T')[0];
+      const adjustedDate = new Date(selectedDate.getTime() - timezoneOffset * 60000);
+      const formattedDate = adjustedDate.toISOString().split('T')[0];
 
       try {
         const response = await fetch(`/api/getCards?date=${formattedDate}&timezoneOffset=${timezoneOffset}`);
