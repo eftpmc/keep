@@ -6,11 +6,14 @@ export async function POST(req: Request) {
 
     try {
         const supabase = createClient(cookieStore);
-        const { title, imageUrl, link } = await req.json();
+        const { title, imageUrl, link, createdDate } = await req.json();
+
+        const createdDateObj = new Date(createdDate);
+
         const { data, error } = await supabase
             .from('cards')
             .insert([
-                { title, link, imageUrl, createdDate: new Date().toISOString() },
+                { title, link, imageUrl, createdDate: createdDateObj.toISOString() },
             ])
             .select()
 

@@ -15,16 +15,6 @@ type CardType = {
   createdDate?: string;
 };
 
-const formatDateForSupabase = (inputDate: Date | string): string => {
-  let date = new Date(inputDate);
-
-  const year = date.getUTCFullYear();
-  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const day = String(date.getUTCDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-};
-
 type HomeProps = {
   isFormOpen: boolean;
   hideForm: () => void;
@@ -99,8 +89,10 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
     }
   };
 
-  const addCard = async () => {
-    const newCard = { title: newTitle, imageUrl: newImage, link: newLink };
+  const addCard = async () => { 
+    const createdDate = selectedDate.toISOString();
+
+    const newCard = { title: newTitle, imageUrl: newImage, link: newLink, createdDate };
 
     try {
       if (newFile != undefined) {

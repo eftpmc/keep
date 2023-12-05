@@ -16,9 +16,6 @@ export async function GET(req: Request) {
         const endDate = new Date(startDate);
         endDate.setUTCDate(endDate.getUTCDate() + 1);
 
-        console.log(startDate)
-        console.log(endDate)
-
         let { data: cards, error } = await supabase
             .from('cards')
             .select('*')
