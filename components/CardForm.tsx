@@ -70,7 +70,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
       <div className="flex justify-center gap-2 mt-4">
         <input
           className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md"
-          type="url"
+          type="text"
           value={newDescription}
           onChange={onDescriptionChange}
           placeholder="Enter description (optional)"
