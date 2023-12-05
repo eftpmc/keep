@@ -111,6 +111,8 @@
 }
 
 .flip-card-front {
+  -webkit-transform:rotateY(0deg);
+  transform:rotateY(0deg);
   background-color: #bbb;
   color: black;
 }
