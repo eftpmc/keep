@@ -11,6 +11,7 @@ type CardType = {
   id?: number;
   title: string;
   imageUrl: string;
+  description?: string;
   link?: string;
   createdDate?: string;
 };
@@ -27,6 +28,7 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   const [newImage, setNewImage] = useState('');
   const [newFile, setNewFile] = useState<File>();
   const [newLink, setNewLink] = useState('');
+  const [newDescription, setNewDescription] = useState('');
   const [inputKey, setInputKey] = useState(Date.now());
 
   const fetchImage = async (imagePath: string) => {
@@ -92,7 +94,7 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   const addCard = async () => { 
     const createdDate = selectedDate.toISOString();
 
-    const newCard = { title: newTitle, imageUrl: newImage, link: newLink, createdDate };
+    const newCard = { title: newTitle, imageUrl: newImage, description: newDescription, link: newLink, createdDate };
 
     try {
       if (newFile != undefined) {
@@ -141,6 +143,7 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
       setNewTitle('');
       setNewImage('');
       setNewLink('');
+      setNewDescription('');
       setInputKey(Date.now());
     } catch (error) {
       console.error('Error adding card:', error);
@@ -176,9 +179,11 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
             onSubmit={addCard}
             onTitleChange={(e) => setNewTitle(e.target.value)}
             onImageChange={handleImageChange}
+            onDescriptionChange={(e) => setNewDescription(e.target.value)}
             onLinkChange={(e) => setNewLink(e.target.value)}
             onClose={hideForm}
             newTitle={newTitle}
+            newDescription={newDescription}
             newLink={newLink}
             inputKey={inputKey}
           />

@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import { NewLineKind } from 'typescript';
 
 type CardFormProps = {
-  onSubmit: (title: string, file: File | null, link?: string) => void;
+  onSubmit: (title: string, file: File | null, link?: string, description?: string) => void;
   onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onLinkChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDescriptionChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClose: () => void;
   newTitle: string;
   newLink: string;
+  newDescription: string;
   inputKey: number;
 };
 
-const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageChange, onLinkChange, onClose, newTitle, newLink, inputKey }) => {
+const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageChange, onLinkChange, onDescriptionChange, onClose, newTitle, newLink, newDescription, inputKey }) => {
   const [error, setError] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -38,7 +40,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
       return;
     }
 
-    onSubmit(newTitle, selectedFile, newLink);
+    onSubmit(newTitle, selectedFile, newLink, newDescription);
   };
 
   return (
@@ -63,6 +65,15 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageCha
           value={newLink}
           onChange={onLinkChange}
           placeholder="Enter link (optional)"
+        />
+      </div>
+      <div className="flex justify-center gap-2 mt-4">
+        <input
+          className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md"
+          type="url"
+          value={newDescription}
+          onChange={onDescriptionChange}
+          placeholder="Enter description (optional)"
         />
       </div>
       {error && <div className="text-red-500">{error}</div>}
