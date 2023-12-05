@@ -43,7 +43,7 @@
 }
 
 .masonry-grid {
-  column-count: 1;
+  column-count: 2;
   column-gap: 1rem;
 }
 
@@ -72,9 +72,11 @@
 }
 
 .masonry-card {
+  width: 100%;
   break-inside: avoid;
   margin-bottom: 1rem;
 }
+
 
 .flip-card {
   background-color: transparent;
@@ -82,7 +84,6 @@
 }
 
 .flip-card-inner {
-  background-clip:content-box;
   position: relative;
   text-align: center;
   transition: transform 0.6s;
