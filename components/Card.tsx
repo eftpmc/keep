@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
     <div className="flip-card flex flex-col items-center" onClick={handleFlip}>
       <div className={`flip-card-inner "w-full bg-gray-200 flex justify-center items-center cursor-pointer ${isFlipped ? 'flipped' : ''}`}>
         <div className="flip-card-front">
-          <img src={card.imageUrl} alt={card.title} className="w-full" />
+          <img src={card.imageUrl} alt={card.title} className="card-image w-full block" />
         </div>
         <div className="flip-card-back flex flex-col items-center justify-evenly">
           <h1 className='font-bold'>{card.title}</h1>
