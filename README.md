@@ -29,7 +29,7 @@ Join a community of individuals passionate about personal organization and creat
 
 ## Feedback and Support
 
-We value your input! For suggestions, issues, or assistance, please reach out to us via our [support page](#).
+I value your input, please reach out to me via zackhhi@gmail.com.
 
 ## Stay Connected
 
