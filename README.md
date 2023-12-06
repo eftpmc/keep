@@ -41,6 +41,7 @@ To run "Keep" on your local machine, follow these steps:
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    NEXT_PUBLIC_SUPABASE_SERVICE=your_supabase_service_key
    ```
 
