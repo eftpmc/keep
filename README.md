@@ -1,70 +1,73 @@
-# Clothing and Wardrobe Web App
+# Keep
 
-## About The Project
+## Introduction
 
-This project is a web application designed to revolutionize the way users interact with their wardrobe. Built with Next.js, it features an intuitive interface where users can manage their clothing items, create outfits, and utilize an innovative AI feature to generate images of clothing based on their preferences. 
+Welcome to "Keep" – an innovative application designed to help you manage your thoughts, keep track of tasks, and understand yourself better. This app leverages the power of React, Next.js, and Supabase to create a seamless and interactive user experience.
 
-### Key Features:
+## Features
 
-- **Wardrobe Management**: Upload and organize your clothing items.
-- **Outfit Creator**: Mix and match items to create and save outfits.
-- **AI-Generated Clothing**: Enter details to visualize clothing items without needing actual photos.
-- **Social Integration**: Share outfits and get inspiration from the community.
-- **Sustainability Focus**: Suggestions for sustainable fashion choices.
+- **Daily Card Management**: Add and view cards daily, each containing a title, image, optional link, and description.
+- **User Authentication**: Secure login and registration functionality to ensure data privacy.
+- **Responsive Design**: A seamless experience across all devices, whether you're on desktop or mobile.
+- **Masonry Grid Layout**: Visually appealing card layout that adapts to different screen sizes.
+- **Interactive Card Flipping**: Click on a card to flip and reveal more details, including the description and link.
+- **User-Specific Data**: Each user's data is isolated, ensuring privacy and security.
 
-## Built With
+## Installation and Setup
 
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [AI Image Generation API](#) (Specify the API or model used)
-- Other libraries and frameworks as used (e.g., TailwindCSS, Redux)
+To run "Keep" on your local machine, follow these steps:
 
-## Getting Started
+1. Clone the repository:
 
-To get a local copy up and running, follow these simple steps.
+   ```
+   git clone https://github.com/your-username/keep.git
+   ```
 
-### Prerequisites
+2. Navigate to the project directory:
 
-- npm
-  npm install npm@latest -g
+   ```
+   cd keep
+   ```
 
-### Installation
+3. Install the necessary dependencies:
 
-1. Clone the repo
-   git clone https://github.com/eftpmc/ward.git
-2. Install NPM packages
+   ```
    npm install
+   ```
+
+4. Set up environment variables:
+
+   Create a `.env.local` file in the root directory and add the necessary Supabase credentials:
+
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_SERVICE=your_supabase_service_key
+   ```
+
+5. Run the application:
+
+   ```
+   npm run dev
+   ```
+
+   The app will be running on `http://localhost:3000`.
 
 ## Usage
 
-This app is great for individuals looking to streamline their wardrobe management and explore new outfit ideas. More detailed usage instructions can be added here.
-
-## Roadmap
-
-- [ ] Integrate AI image generation for new clothing items
-- [ ] Implement calendar integration for outfit planning
-- [ ] Add user authentication and profile management
-- [ ] Expand the database to include a wider range of clothing styles
-
-See the [open issues](https://github.com/eftpmc/ward/issues) for a list of proposed features (and known issues).
+- **Adding a Card**: Click on the "Add Card" button, fill in the details, and submit to create a new card.
+- **Viewing Cards**: Cards are displayed on the main page and can be flipped to reveal more information.
+- **Deleting a Card**: Click on the "Remove" button on the back of the card to delete it.
 
 ## Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/AmazingFeature)
-3. Commit your Changes (git commit -m 'Add some AmazingFeature')
-4. Push to the Branch (git push origin feature/AmazingFeature)
-5. Open a Pull Request
+Contributions to "Keep" are always welcome, whether it's improving documentation, bug fixes, or new features. Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute.
 
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+"Keep" is released under the [MIT License](LICENSE). Feel free to use it in your projects.
 
-## Contact
+---
 
-Your Name - zackhhi@gmail.com
+Built with ❤️ using React, Next.js, and Supabase.
 
-Project Link: [https://github.com/eftpmc/ward](https://github.com/eftpmc/ward)
-
+---
