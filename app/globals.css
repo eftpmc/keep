@@ -105,6 +105,12 @@
   column-gap: 1rem;
 }
 
+.masonry-grid.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .dialog-trigger {
   width: 95%;
   break-inside: avoid;
@@ -117,9 +123,6 @@
   .masonry-grid {
     column-count: 2;
   }
-  .dialog-trigger {
-    width: 100%;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -127,6 +130,9 @@
   /* Tailwind's 'lg' breakpoint */
   .masonry-grid {
     column-count: 3;
+  }
+  .dialog-trigger {
+    width: 100%;
   }
 }
 

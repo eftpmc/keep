@@ -165,14 +165,14 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
           <CardForm onSubmit={addCard}/>
         </DialogContent>
 
-        <div className="masonry-grid">
+        <div className={`masonry-grid ${cards.length === 0 ? 'empty' : ''}`}>
           {cards.map((card, index) => (
             <div key={index} className="masonry-card">
               <Card card={card} onRemove={() => removeCard(index)} />
             </div>
           ))}
           <DialogTrigger asChild>
-            <button className="dialog-trigger mx-auto flex items-center justify-center w-[150px] h-[150px] border-2 border-dashed border-blue-500 bg-background text-blue-500 rounded-md text-4xl">
+            <button className="dialog-trigger mx-auto flex items-center justify-center min-w-[150px] min-h-[150px] border-2 border-dashed border-blue-500 bg-background text-blue-500 rounded-md text-4xl">
               +
             </button>
           </DialogTrigger>
