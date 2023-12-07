@@ -30,7 +30,7 @@ type HomeProps = {
   selectedDate: Date;
 };
 
-const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
+const Home: React.FC<HomeProps> = ({ selectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
 
   const fetchImage = async (imagePath: string) => {
