@@ -105,11 +105,20 @@
   column-gap: 1rem;
 }
 
+.dialog-trigger {
+  width: 95%;
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+
 @media (min-width: 640px) {
 
   /* Tailwind's 'sm' breakpoint */
   .masonry-grid {
     column-count: 2;
+  }
+  .dialog-trigger {
+    width: 100%;
   }
 }
 

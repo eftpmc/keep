@@ -1,97 +1,141 @@
+"use client"
+
 import React, { useState } from 'react';
+import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
+export const cardFormSchema = z.object({
+  title: z.string().min(3, 'Title must be at least 3 characters long.'),
+  image: z.any(),
+  link: z.string()
+  .optional()
+  .refine((val) => !val || isValidUrl(val), {
+    message: "Invalid URL",
+  }),
+  description: z.string().optional(),
+});
+
+export type CardFormData = z.infer<typeof cardFormSchema>;
 
 type CardFormProps = {
-  onSubmit: (title: string, file: File | null, link?: string, description?: string) => void;
-  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onLinkChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onDescriptionChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClose: () => void;
-  newTitle: string;
-  newLink: string;
-  newDescription: string;
-  inputKey: number;
+  onSubmit: (data: CardFormData) => void;
 };
 
-const CardForm: React.FC<CardFormProps> = ({ onSubmit, onTitleChange, onImageChange, onLinkChange, onDescriptionChange, onClose, newTitle, newLink, newDescription, inputKey }) => {
-  const [error, setError] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+function isValidUrl(string : string) {
+  try {
+    new URL(string);
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onImageChange(e);
-    if (e.target.files && e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-    } else {
-      setSelectedFile(null);
-    }
-  };
+const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
+  const form = useForm<z.infer<typeof cardFormSchema>>({
+    resolver: zodResolver(cardFormSchema),
+    defaultValues: {
+      title: '',
+      image: new File([], ""),
+      link: '',
+      description: '',
+    },
+  })
 
-  const handleFormSubmit = () => {
-    setError('');
-
-    if (newTitle.trim().length < 3) {
-      setError('Title must be at least 3 characters long.');
-      return;
-    }
-
-    if (!selectedFile) {
-      setError('Please select a file.');
-      return;
-    }
-
-    onSubmit(newTitle, selectedFile, newLink, newDescription);
+  const handleFormSubmit = (values: CardFormData) => {
+    onSubmit(values);
   };
 
   return (
-    <div className="bg-background p-4 rounded-md mx-auto min-w-[300px]">
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <input
-          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md"
-          type="text"
-          value={newTitle}
-          onChange={onTitleChange}
-          placeholder="Enter title"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter title" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your cards title.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <input
-          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md file:bg-gray-600 file:border-none file:text-white"
-          key={inputKey}
-          type="file"
-          onChange={handleFileChange}
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Image
+              </FormLabel>
+              <FormControl>
+                <Input
+                  className='file:text-white'
+                  accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
+                  type="file"
+                  onChange={(e) =>
+                    field.onChange(e.target.files ? e.target.files[0] : null)
+                  }
+                />
+              </FormControl>
+              <FormDescription>Upload an image for your card.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <input
-          className="form-input px-4 py-2 w-full md:w-1/3 bg-gray-700 text-white rounded-md"
-          type="url"
-          value={newLink}
-          onChange={onLinkChange}
-          placeholder="Enter link (optional)"
+        <FormField
+          control={form.control}
+          name="link"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Link</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter link (optional)" {...field} />
+              </FormControl>
+              <FormDescription>
+                Include a link for more details.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <div className="flex justify-center gap-2 mt-4">
-        <input
-          className="form-input px-4 py-2 w-full bg-gray-700 text-white rounded-md"
-          type="text"
-          value={newDescription}
-          onChange={onDescriptionChange}
-          placeholder="Enter description (optional)"
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter description (optional)" {...field} />
+              </FormControl>
+              <FormDescription>
+                Add a brief description of your card.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      {error && <div className="text-red-500">{error}</div>}
-      <div className="flex justify-center gap-2 mt-4">
-        <button onClick={handleFormSubmit} className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-          Add Card
-        </button>
-        <button onClick={onClose} className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded">
-          Close
-        </button>
-      </div>
-    </div>
-  );
-};
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  )
+}
 
 export default CardForm;

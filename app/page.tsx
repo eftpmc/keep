@@ -9,14 +9,14 @@ import Home from '@/components/Home';
 import Header from '@/components/Header';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 export default function Index() {
   const { isAuth } = useAuth();
-  const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  const showForm = () => setIsFormOpen(true);
-  const hideForm = () => setIsFormOpen(false);
 
   const handleDateChange = (date : any) => {
     setSelectedDate(date);
@@ -28,7 +28,6 @@ export default function Index() {
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <div className="flex items-center gap-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            {isAuth && <button onClick={showForm} className="p-2 px-3 bg-blue-500 hover:bg-blue-700 text-white flex rounded-md no-underline border whitespace-nowrap">Add Card</button>}
           </div>
           <div className="flex-1 flex justify-center">
             <DatePicker
@@ -47,7 +46,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home isFormOpen={isFormOpen} hideForm={hideForm} selectedDate={selectedDate}/> : <WelcomeScreen />}
+          {isAuth ? <Home selectedDate={selectedDate}/> : <WelcomeScreen />}
         </main>
       </div>
 

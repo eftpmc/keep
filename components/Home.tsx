@@ -1,9 +1,19 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
+import * as z from "zod"
 import Card from '@/components/Card';
-import CardForm from '@/components/CardForm';
+import CardForm, { cardFormSchema, CardFormData } from '@/components/CardForm';
 import { createClient } from '@supabase/supabase-js';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_SERVICE!);
 
@@ -17,19 +27,11 @@ type CardType = {
 };
 
 type HomeProps = {
-  isFormOpen: boolean;
-  hideForm: () => void;
   selectedDate: Date;
 };
 
 const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
-  const [newTitle, setNewTitle] = useState('');
-  const [newImage, setNewImage] = useState('');
-  const [newFile, setNewFile] = useState<File>();
-  const [newLink, setNewLink] = useState('');
-  const [newDescription, setNewDescription] = useState('');
-  const [inputKey, setInputKey] = useState(Date.now());
 
   const fetchImage = async (imagePath: string) => {
     try {
@@ -79,31 +81,21 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
     fetchCards();
   }, [selectedDate]);
 
-  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0];
-
-      setNewFile(file);
-
-      const imageUrl = URL.createObjectURL(event.target.files[0])
-      //const imageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/storage/v1/object/public/card-images/${data.path}`;
-      setNewImage(imageUrl);
-    }
-  };
-
-  const addCard = async () => { 
+  const addCard = async (formData: z.infer<typeof cardFormSchema>) => {
     const createdDate = selectedDate.toISOString();
+    const { title, image, link, description } = formData;
+    const imageUrl = URL.createObjectURL(image)
 
-    const newCard = { title: newTitle, imageUrl: newImage, description: newDescription, link: newLink, createdDate };
+    const newCard = { title: title, imageUrl: imageUrl, description: description, link: link, createdDate };
 
     try {
-      if (newFile != undefined) {
+      if (image != undefined) {
         const timestamp = Date.now();
-        const sanitizedFileName = newFile.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
+        const sanitizedFileName = image.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
 
         const { data, error } = await supabase.storage
           .from('card-images')
-          .upload(`images/${sanitizedFileName}`, newFile, {
+          .upload(`images/${sanitizedFileName}`, image, {
             cacheControl: '3600',
             upsert: false
           });
@@ -140,11 +132,6 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
       }
 
       setCards([...cards, addedCard]);
-      setNewTitle('');
-      setNewImage('');
-      setNewLink('');
-      setNewDescription('');
-      setInputKey(Date.now());
     } catch (error) {
       console.error('Error adding card:', error);
     }
@@ -173,30 +160,24 @@ const Home: React.FC<HomeProps> = ({ isFormOpen, hideForm, selectedDate }) => {
 
   return (
     <div>
-      {isFormOpen && (
-        <div className="flex w-full z-50 flex justify-center items-center">
-          <CardForm
-            onSubmit={addCard}
-            onTitleChange={(e) => setNewTitle(e.target.value)}
-            onImageChange={handleImageChange}
-            onDescriptionChange={(e) => setNewDescription(e.target.value)}
-            onLinkChange={(e) => setNewLink(e.target.value)}
-            onClose={hideForm}
-            newTitle={newTitle}
-            newDescription={newDescription}
-            newLink={newLink}
-            inputKey={inputKey}
-          />
-        </div>
-      )}
+      <Dialog>
+        <DialogContent className="sm:max-w-[425px]">
+          <CardForm onSubmit={addCard}/>
+        </DialogContent>
 
-      <div className="masonry-grid">
-        {cards.map((card, index) => (
-          <div key={index} className="masonry-card">
-            <Card card={card} onRemove={() => removeCard(index)} />
-          </div>
-        ))}
-      </div>
+        <div className="masonry-grid">
+          {cards.map((card, index) => (
+            <div key={index} className="masonry-card">
+              <Card card={card} onRemove={() => removeCard(index)} />
+            </div>
+          ))}
+          <DialogTrigger asChild>
+            <button className="dialog-trigger mx-auto flex items-center justify-center w-[150px] h-[150px] border-2 border-dashed border-blue-500 bg-background text-blue-500 rounded-md text-4xl">
+              +
+            </button>
+          </DialogTrigger>
+        </div>
+      </Dialog>
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {cards.map((card, index) => (
           <Card key={index} card={card} onRemove={() => removeCard(index)} />
