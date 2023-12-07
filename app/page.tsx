@@ -7,25 +7,11 @@ import AuthButton from '../components/AuthButton';
 import WelcomeScreen from '@/components/WelcomeScreen';
 import Home from '@/components/Home';
 import Header from '@/components/Header';
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import DatePicker from '@/components/DatePicker';
 
 export default function Index() {
   const { isAuth } = useAuth();
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-
-  const formatDate = (date: Date | undefined) => {
-    return date ? date.toLocaleDateString() : new Date().toLocaleDateString();
-  };
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   return (
     <div className="flex-1 w-full flex flex-col gap-5 items-center">
@@ -35,27 +21,10 @@ export default function Index() {
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
           </div>
           <div className="flex-1 flex justify-center items-center">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline">{formatDate(selectedDate)}</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Change date</DialogTitle>
-                  <DialogDescription>
-                    Change the date to view past and future cards.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className='flex-1 flex justify-center items-center'>
-                  <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    className="rounded-md border"
-                  />
-                </div>
-              </DialogContent>
-            </Dialog>
+            <DatePicker
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+            />
           </div>
           <div className="flex-1 flex justify-end items-center">
             <AuthButton />
@@ -66,7 +35,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home selectedDate={selectedDate || new Date()} /> : <WelcomeScreen />}
+          {isAuth ? <Home selectedDate={selectedDate} /> : <WelcomeScreen />}
         </main>
       </div>
 
