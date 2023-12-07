@@ -67,8 +67,8 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter title" autoFocus={false} {...field} />
+              <FormControl autoFocus={false}>
+                <Input placeholder="Enter title" {...field} />
               </FormControl>
               <FormDescription>
                 This is your cards title.
@@ -93,7 +93,6 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
                   onChange={(e) =>
                     field.onChange(e.target.files ? e.target.files[0] : null)
                   }
-                  autoFocus={false}
                 />
               </FormControl>
               <FormDescription>Upload an image for your card.</FormDescription>
@@ -108,7 +107,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
             <FormItem>
               <FormLabel>Link</FormLabel>
               <FormControl>
-                <Input placeholder="Enter link (optional)" autoFocus={false} {...field} />
+                <Input placeholder="Enter link (optional)" {...field} />
               </FormControl>
               <FormDescription>
                 Include a link for more details.
@@ -124,7 +123,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter description (optional)" autoFocus={false} {...field} />
+                <Textarea placeholder="Enter description (optional)" {...field} />
               </FormControl>
               <FormDescription>
                 Add a brief description of your card.
