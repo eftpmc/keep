@@ -67,7 +67,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Title</FormLabel>
-              <FormControl autoFocus={false}>
+              <FormControl>
                 <Input placeholder="Enter title" {...field} />
               </FormControl>
               <FormDescription>
