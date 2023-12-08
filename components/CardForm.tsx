@@ -8,6 +8,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import {
   Form,
   FormControl,
   FormDescription,
@@ -17,14 +22,16 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 
+import { BsCaretDownFill } from "react-icons/bs";
+
 export const cardFormSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters long.'),
   image: z.any(),
   link: z.string()
-  .optional()
-  .refine((val) => !val || isValidUrl(val), {
-    message: "Invalid URL",
-  }),
+    .optional()
+    .refine((val) => !val || isValidUrl(val), {
+      message: "Invalid URL",
+    }),
   description: z.string().optional(),
 });
 
@@ -34,7 +41,7 @@ type CardFormProps = {
   onSubmit: (data: CardFormData) => void;
 };
 
-function isValidUrl(string : string) {
+function isValidUrl(string: string) {
   try {
     new URL(string);
     return true;
@@ -100,38 +107,56 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="link"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Link</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter link (optional)" {...field} />
-              </FormControl>
-              <FormDescription>
-                Include a link for more details.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter description (optional)" {...field} />
-              </FormControl>
-              <FormDescription>
-                Add a brief description of your card.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <Collapsible
+          className="w-[350px] space-y-2"
+        >
+          <div className="flex items-center justify-between space-x-4 px-4">
+            <h4 className="text-sm font-semibold">
+              optional fields
+            </h4>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" size="sm" className="w-9 p-0">
+                <BsCaretDownFill className="text-purple h-4 w-4" />
+                <span className="sr-only">Toggle</span>
+              </Button>
+            </CollapsibleTrigger>
+          </div>
+          <CollapsibleContent className="space-y-2">
+            <FormField
+              control={form.control}
+              name="link"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Link</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter link (optional)" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Attach a link if needed.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Enter description (optional)" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Add a brief description of your card.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CollapsibleContent>
+        </Collapsible>
+
         <Button type="submit">Submit</Button>
       </form>
     </Form>
