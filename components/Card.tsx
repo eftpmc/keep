@@ -1,4 +1,13 @@
 import React, { useState } from 'react';
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 type CardProps = {
   card: {
@@ -34,9 +43,16 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
               Link
             </a>
           )}
-          <button onClick={onRemove} className="mt-2 bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded">
-            Remove
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="absolute top-0 right-2 px-2 py-1 text-2xl leading-none text-purple hover:text-purple/90">...</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>{card.title}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={onRemove}>
+                Remove
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
