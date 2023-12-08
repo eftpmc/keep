@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Loader2 } from "lucide-react"; 
 import {
   Collapsible,
   CollapsibleContent,
@@ -61,8 +62,16 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
     },
   })
 
-  const handleFormSubmit = (values: CardFormData) => {
-    onSubmit(values);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFormSubmit = async (values: CardFormData) => {
+    setIsLoading(true);
+    try {
+      await onSubmit(values);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -157,7 +166,16 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
           </CollapsibleContent>
         </Collapsible>
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>
+          ) : (
+            "Add Card"
+          )}
+        </Button>
       </form>
     </Form>
   )
