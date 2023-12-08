@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/utils/AuthContext';
+import { Button } from "@/components/ui/button"
 
 interface User {
   email: string;
@@ -65,12 +66,10 @@ export default function AuthButton() {
   return isAuth && user ? (
     <div className="flex items-center gap-4">
       {isLargeScreen && <>Hey, {user.email}!</>}
-      <button onClick={signOut} className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
-        Logout
-      </button>
+      <Button onClick={signOut} className="py-2 px-4">Logout</Button>
     </div>
   ) : (
-    <Link href="/login" className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
+    <Link href="/login" className="py-2 px-3 flex rounded-md no-underline bg-purple text-foreground hover:bg-purple/80">
       Login
     </Link>
   );

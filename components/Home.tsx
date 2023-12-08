@@ -172,7 +172,7 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
             </div>
           ))}
           <DialogTrigger asChild>
-            <button className="dialog-trigger mx-auto flex items-center justify-center min-w-[150px] min-h-[150px] border-2 border-dashed border-blue-500 bg-background text-blue-500 rounded-md text-4xl">
+            <button className="dialog-trigger mx-auto flex items-center justify-center min-w-[150px] min-h-[150px] border-2 border-dashed border-purple bg-background text-purple rounded-md text-4xl">
               +
             </button>
           </DialogTrigger>
