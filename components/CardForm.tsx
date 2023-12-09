@@ -166,7 +166,7 @@ const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
           </CollapsibleContent>
         </Collapsible>
 
-        <Button type="submit" disabled={isLoading}>
+        <Button type="submit" disabled={isLoading} className="text-white">
           {isLoading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

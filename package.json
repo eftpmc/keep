@@ -24,6 +24,7 @@
     "geist": "^1.0.0",
     "lucide-react": "^0.294.0",
     "next": "latest",
+    "next-themes": "^0.2.1",
     "postcss": "8.4.29",
     "react": "18.2.0",
     "react-datepicker": "^4.24.0",

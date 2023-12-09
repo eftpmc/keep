@@ -66,10 +66,10 @@ export default function AuthButton() {
   return isAuth && user ? (
     <div className="flex items-center gap-4">
       {isLargeScreen && <>Hey, {user.email}!</>}
-      <Button onClick={signOut} className="py-2 px-4">Logout</Button>
+      <Button onClick={signOut} className="py-2 px-4 text-white">Logout</Button>
     </div>
   ) : (
-    <Link href="/login" className="py-2 px-3 flex rounded-md no-underline bg-purple text-foreground hover:bg-purple/80">
+    <Link href="/login" className="py-2 px-3 flex rounded-md no-underline bg-purple text-white hover:bg-purple/80">
       Login
     </Link>
   );
