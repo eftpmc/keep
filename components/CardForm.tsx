@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Loader2 } from "lucide-react"; 
+import { Loader2 } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import { useToast } from "@/components/ui/use-toast"
 
 import { BsCaretDownFill } from "react-icons/bs";
 
@@ -52,6 +53,8 @@ function isValidUrl(string: string) {
 }
 
 const CardForm: React.FC<CardFormProps> = ({ onSubmit }) => {
+  const { toast } = useToast()
+
   const form = useForm<z.infer<typeof cardFormSchema>>({
     resolver: zodResolver(cardFormSchema),
     defaultValues: {
