@@ -4,7 +4,7 @@
 
 Welcome to **Keep**, a personalized platform designed for self-expression and organization. Tailored for those seeking an intuitive way to manage thoughts and tasks, Keep offers a unique blend of functionality and creativity.
 
-![Picture of Website](https://imgur.com/fhyPzXK)
+![Picture of Website](screenshot.png)
 
 ## Features
 
