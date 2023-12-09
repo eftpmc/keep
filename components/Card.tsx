@@ -29,6 +29,15 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
     setIsFlipped(!isFlipped);
   };
 
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = card.imageUrl;
+    link.download = card.title.replace(/\s+/g, '-') + "-image"; // Create a filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="flip-card flex flex-col items-center" onClick={handleFlip}>
       <div className={`flip-card-inner "w-full bg-gray-200 flex justify-center items-center cursor-pointer ${isFlipped ? 'flipped' : ''}`}>
@@ -47,6 +56,10 @@ const Card: React.FC<CardProps> = ({ card, onRemove }) => {
             <DropdownMenuTrigger className="absolute top-0 right-2 px-2 py-1 text-2xl leading-none text-purple hover:text-purple/90">...</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>{card.title}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleDownload}>
+                Download
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={onRemove}>
                 Remove
