@@ -4,7 +4,8 @@
 
 Welcome to **Keep**, a personalized platform designed for self-expression and organization. Tailored for those seeking an intuitive way to manage thoughts and tasks, Keep offers a unique blend of functionality and creativity.
 
-![Picture of Website]([http://url/to/img.png](https://imgur.com/fhyPzXK))
+![Picture of Website](https://imgur.com/fhyPzXK)
+
 ## Features
 
 - **Personalized Card Creation**: Empower your daily routine with custom cards, each featuring a title, captivating image, and optional link and description.
