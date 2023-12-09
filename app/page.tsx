@@ -41,10 +41,15 @@ export default function Index() {
 
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
-          Powered by{' '}
-          <a href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs" target="_blank" className="font-bold hover:underline" rel="noreferrer">
-            Supabase
+          Built by{' '}
+          <a href="https://twitter.com/eftpmc" target="_blank" className="font-bold hover:underline" rel="noreferrer">
+            ari
           </a>
+          . The source code is available on{' '}
+          <a href="https://github.com/eftpmc/keep" target="_blank" className="font-bold hover:underline" rel="noreferrer">
+            GitHub
+          </a>
+          .
         </p>
       </footer>
     </div>
