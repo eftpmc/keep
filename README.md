@@ -21,14 +21,6 @@ Welcome to **Keep**, a personalized platform designed for self-expression and or
 - Create cards for various purposes – from daily reminders to inspirational quotes.
 - Revisit your past entries and observe your personal growth and changing interests.
 
-## Join Our Community
-
-Join a community of individuals passionate about personal organization and creative expression:
-
-- Share creative ways you're using Keep to enhance your daily life.
-- Get inspired by community stories and ideas.
-- Stay informed about the latest Keep features and updates.
-
 ## Feedback and Support
 
 I value your input, please reach out to me via zackhhi@gmail.com.
