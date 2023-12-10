@@ -18,7 +18,7 @@ import {
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_SERVICE!);
 
 type CardType = {
-  id?: number;
+  id: number;
   title: string;
   imageUrl: string;
   description?: string;
@@ -110,7 +110,6 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
         }
       }
 
-
       const response = await fetch('/api/addCard', {
         method: 'POST',
         headers: {
@@ -134,6 +133,34 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
       setCards([...cards, addedCard]);
     } catch (error) {
       console.error('Error adding card:', error);
+    }
+  };
+
+  const handleEditCard = async (
+    id: number,
+    newTitle: string,
+    newLink: string,
+    newDescription: string
+  ) => {
+    const updatedCards = cards.map(card => {
+      if (card.id === id) {
+        return { ...card, title: newTitle, link: newLink, description: newDescription };
+      }
+      return card;
+    });
+    setCards(updatedCards);
+
+    try {
+      const { error } = await supabase
+        .from('cards')
+        .update({ title: newTitle, link: newLink, description: newDescription })
+        .eq('id', id);
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error('Error updating card:', error);
     }
   };
 
@@ -162,13 +189,18 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
     <div>
       <Dialog>
         <DialogContent className="sm:max-w-[425px]">
-          <CardForm onSubmit={addCard}/>
+          <CardForm onSubmit={addCard} />
         </DialogContent>
 
         <div className={`masonry-grid ${cards.length === 0 ? 'empty' : ''}`}>
           {cards.map((card, index) => (
             <div key={index} className="masonry-card">
-              <Card card={card} onRemove={() => removeCard(index)} />
+              <Card
+                key={index}
+                card={card}
+                onRemove={() => removeCard(index)}
+                onEdit={handleEditCard}
+              />
             </div>
           ))}
           <DialogTrigger asChild>
