@@ -99,7 +99,7 @@ const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
           </div>
         </div>
       </div>
-      <SheetContent side="bottom">
+      <SheetContent side="top">
         <SheetHeader>
           <SheetTitle>Edit Card</SheetTitle>
         </SheetHeader>
