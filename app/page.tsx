@@ -36,7 +36,7 @@ export default function Index() {
               </SheetTrigger>
               <div className="hidden sm:flex gap-4">
                 <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-                <UniversalButton text="Tags" href="/" ariaLabel="Navigate to Tags" />
+                <UniversalButton text="Tags" href="/tags" ariaLabel="Navigate to Tags" />
               </div>
             </div>
             <div className="flex-1 flex justify-center items-center">
@@ -77,7 +77,7 @@ export default function Index() {
           </SheetHeader>
           <div className="p-4 space-y-4">
             <UniversalButton text="Home" href="/" ariaLabel="Navigate to Home" />
-            <UniversalButton text="Tags" href="/" ariaLabel="Navigate to Tags" />
+            <UniversalButton text="Tags" href="/tags" ariaLabel="Navigate to Tags" />
           </div>
         </SheetContent>
       </Sheet>
