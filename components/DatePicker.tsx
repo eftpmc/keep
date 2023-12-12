@@ -31,6 +31,10 @@ const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, setSelectedDate }
         return date ? date.toLocaleDateString() : new Date().toLocaleDateString();
     };
 
+    const getDate = () => {
+        return new Date();
+    }
+
 
     return (
         <Dialog>
@@ -61,7 +65,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ selectedDate, setSelectedDate }
                         <Calendar
                             mode="single"
                             selected={selectedDate}
-                            onSelect={(date) => setSelectedDate(date || new Date())}
+                            onSelect={(date) => setSelectedDate(date || getDate())}
                         />
                     </PopoverContent>
                 </Popover>
