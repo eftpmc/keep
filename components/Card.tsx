@@ -75,8 +75,8 @@ const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
             <h1 className='font-bold'>{card.title}</h1>
             {card.description && <p className='overflow-hidden'>{card.description}</p>}
             {card.link && (
-              <a href={card.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-700">
-                Link
+              <a href={card.link} target="_blank" rel="noopener noreferrer" className=" px-4 py-4 text-blue-500 hover:text-blue-700 truncate" style={{ maxWidth: '100%' }}>
+                {card.link}
               </a>
             )}
             <DropdownMenu>
