@@ -5,6 +5,7 @@ import * as z from "zod"
 import Card from '@/components/Card';
 import CardForm, { cardFormSchema, CardFormData } from '@/components/CardForm';
 import { createClient } from '@supabase/supabase-js';
+import imageCompression from 'browser-image-compression';
 import {
   Dialog,
   DialogContent,
@@ -89,24 +90,36 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
     const newCard = { title: title, imageUrl: imageUrl, description: description, link: link, createdDate };
 
     try {
-      if (image != undefined) {
-        const timestamp = Date.now();
-        const sanitizedFileName = image.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
+      if (image) {
 
-        const { data, error } = await supabase.storage
-          .from('card-images')
-          .upload(`images/${sanitizedFileName}`, image, {
-            cacheControl: '3600',
-            upsert: false
-          });
+        const options = {
+          maxSizeMB: 1, // (Max file size in MB)
+          maxWidthOrHeight: 1920, // (Compressed files are resized to these dimensions)
+          useWebWorker: true // (Offload to a web worker)
+        };
 
-        if (data != null) {
-          newCard.imageUrl = data.path
-        }
+        try {
+          const compressedFile = await imageCompression(image, options);
+          const timestamp = Date.now();
+          const sanitizedFileName = compressedFile.name.replace(/[^a-z0-9]/gi, '-').toLowerCase() + `-${timestamp}`;
 
-        if (error) {
-          console.error('Error uploading image:', error);
-          return;
+          const { data, error } = await supabase.storage
+            .from('card-images')
+            .upload(`images/${sanitizedFileName}`, compressedFile, {
+              cacheControl: '3600',
+              upsert: false
+            });
+
+          if (data != null) {
+            newCard.imageUrl = data.path
+          }
+
+          if (error) {
+            console.error('Error uploading image:', error);
+            return;
+          }
+        } catch (error) {
+          console.error('Error during image compression:', error);
         }
       }
 
