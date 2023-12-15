@@ -28,11 +28,14 @@ type CardProps = {
     description?: string;
     link?: string;
   };
+  isSwapping: boolean;
   onRemove: () => void;
   onEdit: (id: number, title: string, link: string, description: string) => void;
+  onStartSwap: (id: number) => void;
+  onCompleteSwap: (id: number) => void;
 };
 
-const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
+const Card: React.FC<CardProps> = ({ card, isSwapping, onRemove, onEdit, onStartSwap, onCompleteSwap }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editTitle, setEditTitle] = useState(card.title);
@@ -43,11 +46,17 @@ const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
     return null;
   }
 
-  const handleFlip = () => {
-
+  const handleFlip = (e: { isPropagationStopped: () => any; }) => {
+    if (e.isPropagationStopped()) {
+      return;
+    }
     setIsFlipped(!isFlipped);
-
   };
+
+  const handleDropdownClick = (e) => {
+    e.stopPropagation();
+  };
+  
 
   const handleEdit = async () => {
     setIsLoading(true);
@@ -81,12 +90,15 @@ const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
             )}
             <DropdownMenu>
               <DropdownMenuTrigger className="absolute top-0 right-2 px-2 py-1 text-2xl leading-none text-purple hover:text-purple/90">...</DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent onClick={handleDropdownClick}>
                 <DropdownMenuLabel>{card.title}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <SheetTrigger asChild>
                   <DropdownMenuItem>Edit</DropdownMenuItem>
                 </SheetTrigger>
+                <DropdownMenuItem onClick={() => isSwapping ? onCompleteSwap(card.id) : onStartSwap(card.id)}>
+                  {isSwapping ? "Select to Swap" : "Start Swap"}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleDownload}>
                   Download
                 </DropdownMenuItem>
@@ -120,14 +132,14 @@ const Card: React.FC<CardProps> = ({ card, onRemove, onEdit }) => {
             placeholder="Description"
           />
           <Button onClick={handleEdit} disabled={isLoading}>
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </>
-          ) : (
-            "Save Changes"
-          )}
+            {isLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </div>
       </SheetContent>

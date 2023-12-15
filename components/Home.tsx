@@ -33,9 +33,34 @@ type HomeProps = {
 
 type GroupedCardsType = Record<string, CardType[]>;
 
+type SwapState = {
+  isSwapping: boolean;
+  swapCardId: number | null;
+};
+
 const Home: React.FC<HomeProps> = ({ selectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [groupedCards, setGroupedCards] = useState<GroupedCardsType>({});
+  const [swapState, setSwapState] = useState<SwapState>({ isSwapping: false, swapCardId: null });
+
+  const startSwap = (cardId: number) => {
+    setSwapState({ isSwapping: true, swapCardId: cardId });
+  };
+
+  const completeSwap = (targetCardId: number) => {
+    if (!swapState.isSwapping || swapState.swapCardId === null) return;
+
+    const newCards = [...cards];
+    const index1 = newCards.findIndex(card => card.id === swapState.swapCardId);
+    const index2 = newCards.findIndex(card => card.id === targetCardId);
+
+    if (index1 !== -1 && index2 !== -1) {
+      [newCards[index1], newCards[index2]] = [newCards[index2], newCards[index1]];
+      setCards(newCards);
+    }
+
+    setSwapState({ isSwapping: false, swapCardId: null });
+  };
 
   const fetchImage = async (imagePath: string) => {
     try {
@@ -66,7 +91,7 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
     }, {} as GroupedCardsType);
   };
 
-  const sortDatesDescending  = (dates: string[]) => {
+  const sortDatesDescending = (dates: string[]) => {
     return dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
   };
 
@@ -96,7 +121,7 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
         );
 
         const fetchedGroupedCards = groupCardsByDate(cardsWithNewImages);
-        
+
         setGroupedCards(fetchedGroupedCards);
         setCards(cardsWithNewImages);
       } catch (error) {
@@ -231,17 +256,20 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
         </DialogContent>
 
         <div className={`masonry-grid ${cards.length === 0 ? 'empty' : ''}`}>
-        {cards.map((card, index) => (
+          {cards.map((card, index) => (
             <div key={index} className="masonry-card">
               <Card
-                key={index}
+                key={card.id}
                 card={card}
+                isSwapping={swapState.isSwapping}
                 onRemove={() => removeCard(index)}
                 onEdit={handleEditCard}
+                onStartSwap={startSwap}
+                onCompleteSwap={completeSwap}
               />
             </div>
           ))}
-{/*           {sortDatesAscending(Object.keys(groupedCards)).map((date) => (
+          {/*           {sortDatesAscending(Object.keys(groupedCards)).map((date) => (
             <div
               key={date}
               style={{ minHeight: '100vh' }} // Set minimum height to full viewport height
