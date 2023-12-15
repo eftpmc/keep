@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = ({ card, isSwapping, onRemove, onEdit, onStart
     setIsFlipped(!isFlipped);
   };
 
-  const handleDropdownClick = (e) => {
+  const handleDropdownClick = (e: { stopPropagation: () => void; }) => {
     e.stopPropagation();
   };
   
