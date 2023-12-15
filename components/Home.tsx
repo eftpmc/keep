@@ -31,8 +31,11 @@ type HomeProps = {
   selectedDate: Date;
 };
 
+type GroupedCardsType = Record<string, CardType[]>;
+
 const Home: React.FC<HomeProps> = ({ selectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
+  const [groupedCards, setGroupedCards] = useState<GroupedCardsType>({});
 
   const fetchImage = async (imagePath: string) => {
     try {
@@ -50,6 +53,25 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
       console.error('Error fetching image:', error);
       return null;
     }
+  };
+
+  const groupCardsByDate = (cards: CardType[]): GroupedCardsType => {
+    return cards.reduce((acc, card) => {
+      const date = card.createdDate?.split('T')[0] || "Unknown Date"; // Default to "Unknown Date" if createdDate is undefined
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(card);
+      return acc;
+    }, {} as GroupedCardsType);
+  };
+
+  const sortDatesDescending  = (dates: string[]) => {
+    return dates.sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  };
+
+  const sortDatesAscending = (dates: string[]) => {
+    return dates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
   };
 
   useEffect(() => {
@@ -73,6 +95,9 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
           })
         );
 
+        const fetchedGroupedCards = groupCardsByDate(cardsWithNewImages);
+        
+        setGroupedCards(fetchedGroupedCards);
         setCards(cardsWithNewImages);
       } catch (error) {
         console.error('Error fetching cards:', error);
@@ -206,7 +231,7 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
         </DialogContent>
 
         <div className={`masonry-grid ${cards.length === 0 ? 'empty' : ''}`}>
-          {cards.map((card, index) => (
+        {cards.map((card, index) => (
             <div key={index} className="masonry-card">
               <Card
                 key={index}
@@ -216,6 +241,26 @@ const Home: React.FC<HomeProps> = ({ selectedDate }) => {
               />
             </div>
           ))}
+{/*           {sortDatesAscending(Object.keys(groupedCards)).map((date) => (
+            <div
+              key={date}
+              style={{ minHeight: '100vh' }} // Set minimum height to full viewport height
+              className="pt-4" // Add padding top to create some space
+            >
+              <h2 className="text-lg font-bold my-4">{date}</h2>
+              <div className="masonry-grid">
+                {groupedCards[date].map((card, index) => (
+                  <div key={card.id} className="masonry-card">
+                    <Card
+                      card={card}
+                      onRemove={() => removeCard(index)}
+                      onEdit={handleEditCard}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))} */}
           <DialogTrigger asChild>
             <button className="dialog-trigger mx-auto flex items-center justify-center min-w-[150px] min-h-[150px] border-2 border-dashed border-purple bg-background text-purple rounded-md text-4xl">
               +
