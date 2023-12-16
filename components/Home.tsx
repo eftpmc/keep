@@ -29,7 +29,9 @@ type CardType = {
 
 type HomeProps = {
   selectedDate: Date;
+  setSelectedDate: (date: Date) => void;
 };
+
 
 type GroupedCardsType = Record<string, CardType[]>;
 
@@ -38,7 +40,7 @@ type SwapState = {
   swapCardId: number | null;
 };
 
-const Home: React.FC<HomeProps> = ({ selectedDate }) => {
+const Home: React.FC<HomeProps> = ({ selectedDate, setSelectedDate }) => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [groupedCards, setGroupedCards] = useState<GroupedCardsType>({});
   const [swapState, setSwapState] = useState<SwapState>({ isSwapping: false, swapCardId: null });

@@ -35,7 +35,7 @@ export default function Index() {
       <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl">
         {!isAuth ? <Header /> : null}
         <main className="flex-1 flex flex-col gap-6">
-          {isAuth ? <Home selectedDate={selectedDate} /> : <WelcomeScreen />}
+          {isAuth ? <Home selectedDate={selectedDate} setSelectedDate={setSelectedDate}/> : <WelcomeScreen />}
         </main>
       </div>
 
